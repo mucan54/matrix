@@ -26,22 +26,30 @@ password_config:
 
 admin_contact: 'mailto:{{ADMIN_EMAIL}}'
 
+# Disable E2EE completely
+encryption_enabled_by_default_for_room_type:
+  - false
+
+# Disable all encryption-related endpoints
+modules:
+  - module: synapse.modules.room_disable_encryption.RoomDisableEncryptionModule
+    config:
+      # Disable encryption in all rooms
+      disable_encryption_in_rooms: true
+      # Disable encryption-related endpoints
+      disable_encryption_endpoints: true
+
+# Block encrypted room creation
+room_list_publication_rules:
+  - matches: '.*'
+    exclude_encrypted_rooms: true
+
 experimental_features:
   msc3861:
     enabled: true
-    # Synapse will call `{issuer}/.well-known/openid-configuration` to get the OIDC configuration
-    #issuer: {{SYNAPSE_MAS_FQDN}}
     issuer: http://synapse-mass-authentication-service:8080
-    # Matches the `client_id` in the auth service config
     client_id: 0000000000000000000SYNAPSE
-    # Matches the `client_auth_method` in the auth service config
     client_auth_method: client_secret_basic
-    # Matches the `client_secret` in the auth service config
     client_secret: "{{SYNAPSE_MAS_SECRET}}"
-    # Matches the `matrix.secret` in the auth service config
     admin_token: "{{SYNAPSE_API_ADMIN_TOKEN}}"
-    # URL to advertise to clients where users can self-manage their account
     account_management_url: "{{KEYCLOAK_FQDN}}/realms/{{KEYCLOAK_REALM_IDENTIFIER}}/account"
-
-# Disable End-to-End Encryption (E2EE)
-encryption_enabled: false
