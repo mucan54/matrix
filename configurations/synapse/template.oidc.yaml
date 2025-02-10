@@ -1,12 +1,13 @@
-#oidc_providers:
-#  - idp_id: keycloak
-#    idp_name: "{{SYNAPSE_FRIENDLY_SERVER_NAME}}"
-#    issuer: "{{KEYCLOAK_FQDN}}/realms/{{KEYCLOAK_REALM_IDENTIFIER}}"
-#    client_id: "{{KEYCLOAK_CLIENT_ID}}"
-#    client_secret: "{{KEYCLOAK_CLIENT_SECRET}}"
-#    scopes: ["openid", "profile"]
-#    user_mapping_provider:
-#      config:
-#        localpart_template: "{{ user.preferred_username }}"
-#        display_name_template: "{{ user.given_name }}"
-#    backchannel_logout_enabled: true # Optional
+oidc_providers:
+  - idp_id: keycloak
+    idp_name: "{{SYNAPSE_FRIENDLY_SERVER_NAME}}"
+    issuer: "{{KEYCLOAK_FQDN}}/realms/{{KEYCLOAK_REALM_IDENTIFIER}}"
+    client_id: "{{KEYCLOAK_CLIENT_ID}}"
+    client_secret: "{{KEYCLOAK_CLIENT_SECRET}}"
+    scopes: ["openid", "profile"]
+    user_mapping_provider:
+      config:
+        localpart_template: "{{ user.preferred_username }}"
+        display_name_template: "{{ user.given_name }}"
+    backchannel_logout_enabled: true # Optional
+    disable_cross_signing_reset: true # Optional
